@@ -1,8 +1,3 @@
-# Citation
-
-If you use Drone Models in your research, please cite our work.
-
-```bibtex
 @misc{schuck2026crazyflow,
       title={Crazyflow: An Accurate, GPU-Accelerated, Differentiable Drone Simulator in JAX}, 
       author={Martin Schuck and Marcel P. Rath and Yufei Hua and AbhisheK Goudar and SiQi Zhou and Angela P. Schoellig},
@@ -12,4 +7,3 @@ If you use Drone Models in your research, please cite our work.
       primaryClass={cs.RO},
       url={https://arxiv.org/abs/2606.01478}, 
 }
-```
