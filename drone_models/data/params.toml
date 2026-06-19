@@ -150,3 +150,40 @@ vmotor2torque = [-0.00016088354909542246, 0.0003960426420309137, -4.627412241432
 vmotor2rpm = [2938.3995608848436, 6001.834195381014]  # Index is order
 prop_radius = 27.5e-3 # TODO check
 prop_inertia = 38.93e-9
+[air75_wisp]
+gravity_vec = [0.0, 0.0, -9.81]
+mass = 0.0344  # kg, all-up with a LAVA 1S 450mAh (~13g) battery
+L = 0.0265            # m, roll/pitch moment arm = wheelbase(75mm) / (2*sqrt(2))
+J = [                 # kg m^2, from motor positions (~1.5g each at the arms)
+    [7.0e-6, 0.0,    0.0    ],
+    [0.0,    7.0e-6, 0.0    ],
+    [0.0,    0.0,    1.2e-5 ]
+]
+# thrust(N) = c * rpm^2 (pure quadratic): rpm_max ~= 55k at thrust_max,
+# loaded fraction of 23000KV*~3.8V no-load. TWR ~= 3 at all-up mass.
+rpm2thrust = [0.0, 0.0, 2.0145e-10]
+rpm2torque = [0.0, 0.0, 5.0e-13]   # yaw reaction torque; Q/T ~= thrust2torque
+thrust2torque = 0.006
+# rotor dynamics: symmetric first-order spin-up/down, tau ~= 33ms (brushless
+# 0802 are much faster than the Crazyflie's coreless motors). [up1, up2, dn1, dn2]
+rotor_dyn_coef = [30.0, 0.0, 30.0, 0.0]
+rotor_dyn_coef_simple = 30.0
+thrust_dyn_coef = 30.0
+mixing_matrix = [     # X-quad, identical layout/spin to the cf2x models
+    [-1.0, -1.0,  1.0,  1.0],
+    [-1.0,  1.0,  1.0, -1.0],
+    [-1.0,  1.0, -1.0,  1.0]
+]
+drag_matrix = [[-0.024, 0.0, 0.0], [0.0, -0.024, 0.0], [0.0, 0.0, -0.02083]]  # approx body drag (reused from cf2x_L250 magnitudes)
+# Platform params (some unused by first_principles; kept for parity).
+pwm_min = 7000
+pwm_max = 65535
+thrust_min = 0.01867  # N per motor (idle floor)
+thrust_max = 0.283  # N per motor (~25g; 4x = ~100g thrust, TWR ~3)
+# voltage->motor curves: NOT used by the first_principles path (it integrates
+# rpm directly); copied from cf2x_L250 as placeholders. TODO: fit for 1S.
+vmotor2thrust = [-0.014830744918356092, 0.04724465241828281, -0.01847364358025878, 0.005960923942142]
+vmotor2torque = [-3.3261514624778425e-6, 8.109636684075977e-5, 5.751459172588052e-5, -1.898633582060136e-7]
+vmotor2rpm = [2968.1791506049194, 6647.948592402306]
+prop_radius = 0.020   # m, GF 40mm 2-blade -> 20mm radius
+prop_inertia = 2.5e-8 # kg m^2, light 40mm prop (gyroscopic term only)
