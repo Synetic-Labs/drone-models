@@ -1,0 +1,39 @@
+{
+  "_note": "log-uniform within [min,max]; union of fit uncertainty + real-world (battery/prop) variation. central = params.toml.",
+  "mass": [
+    0.03,
+    0.04
+  ],
+  "J_xx": [
+    7.073e-06,
+    2.53e-05
+  ],
+  "J_yy": [
+    6.847e-06,
+    3.272e-05
+  ],
+  "J_zz": [
+    1.392e-05,
+    5.802e-05
+  ],
+  "rpm2thrust_c": [
+    1.7411e-10,
+    2.2159e-10
+  ],
+  "rpm2torque_c": [
+    5.9355e-13,
+    1.1871e-12
+  ],
+  "rotor_dyn_up": [
+    12.098,
+    22.467
+  ],
+  "rotor_dyn_dn": [
+    17.068,
+    31.698
+  ],
+  "drag_xy": [
+    -0.01149,
+    0.0
+  ]
+}

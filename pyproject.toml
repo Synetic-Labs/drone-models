@@ -27,6 +27,12 @@ dependencies = [
 sysid = [
     "matplotlib",
     "jax >= 0.7",
+    "optax",
+    # Betaflight blackbox decoder used by scripts/identify_air75.py. NOTE: the
+    # 0.5.0 wheel ships a broken console-script entry that trips up uv/pixi; if
+    # the resolver errors, install by hand: download the wheel, unzip, and copy
+    # the `orangebox/` package into site-packages.
+    "orangebox",
 ]
 
 [tool.setuptools]

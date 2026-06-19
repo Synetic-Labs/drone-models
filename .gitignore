@@ -9,3 +9,5 @@
 .pixi
 *.egg-info
 .claude
+# sysid (scripts/identify_air75.py): decoded-blackbox cache + generated reports
+.sysid_cache
