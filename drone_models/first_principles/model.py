@@ -128,10 +128,13 @@ def dynamics(
     rotor_vel_dot_rads = (
         rotor_vel_dot * rpm_to_rad if rotor_vel_dot is not None else xp.zeros_like(rotor_vel)
     )
+    # Gyroscopic reaction torque -ω × h, with rotor angular momentum h = h_z·ẑ.
+    # -ω × (0,0,h_z) = (-q·h_z, +p·h_z, 0): the roll and pitch components have
+    # OPPOSITE signs. The z row is the spin-up/down reaction torque.
     torque_inertia = prop_inertia * xp.stack(
         [
             -ang_vel[..., 1] * xp.sum(mixing_matrix[..., -1, :] * rotor_vel_rads, axis=-1),
-            -ang_vel[..., 0] * xp.sum(mixing_matrix[..., -1, :] * rotor_vel_rads, axis=-1),
+            ang_vel[..., 0] * xp.sum(mixing_matrix[..., -1, :] * rotor_vel_rads, axis=-1),
             xp.sum(mixing_matrix[..., -1, :] * rotor_vel_dot_rads, axis=-1),
         ],
         axis=-1,
@@ -251,9 +254,11 @@ def symbolic_dynamics(
     rpm_to_rad = 2 * cs.pi / 60
     rotor_vel_rads = symbols.rotor_vel * rpm_to_rad
     rotor_vel_dot_rads = rotor_vel_dot * rpm_to_rad if model_rotor_vel else symbols.rotor_vel * 0.0
+    # Gyroscopic reaction torque -ω × h (see dynamics()): roll and pitch
+    # components have OPPOSITE signs.
     torque_inertia = prop_inertia * cs.vertcat(
         -symbols.ang_vel[1] * cs.sum(mixing_matrix[-1, :] * rotor_vel_rads),
-        -symbols.ang_vel[0] * cs.sum(mixing_matrix[-1, :] * rotor_vel_rads),
+        symbols.ang_vel[0] * cs.sum(mixing_matrix[-1, :] * rotor_vel_rads),
         cs.sum(mixing_matrix[-1, :] * rotor_vel_dot_rads),
     )
     torques_motor_vec = torques_thrust + torques_drag + torque_inertia
